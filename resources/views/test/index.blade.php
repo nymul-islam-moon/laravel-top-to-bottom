@@ -41,13 +41,16 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        alert(data);
+                        // alert(data);
                         $('#submit-form')[0].reset();
                         success(data)
                         // $('.submit-btn').prop('type', 'submit'); // not working
                         // alert('Successfully');
                         // $('.submit-btn').attr('type', 'button'); // not working
                     },
+                    error: function(err) {
+                        console.log(err);
+                    }
                 });
             });
 
