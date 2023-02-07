@@ -20,3 +20,4 @@ Route::get('/welcome', function () {
 
 Route::get('/', [TestController::class, 'index'])->name('test.index');
 Route::post('/submit', [TestController::class, 'submit'])->name('test.submit');
+Route::post('/destroy/{test}', [TestController::class, 'destroy'])->name('test.destroy');

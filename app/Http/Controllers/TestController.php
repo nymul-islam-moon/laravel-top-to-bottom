@@ -9,7 +9,8 @@ class TestController extends Controller
 {
     public function index()
     {
-        return view('test.index');
+        $tests = Test::all();
+        return view('test.index', compact('tests'));
     }
 
     public function submit(Request $request)
@@ -20,5 +21,11 @@ class TestController extends Controller
         $test->save();
 
         return back()->with(['error', 'OK']);
+    }
+
+    public function destroy(Test $test)
+    {
+        $test->delete();
+        return back()->with('Success');
     }
 }
