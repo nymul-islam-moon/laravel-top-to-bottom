@@ -20,7 +20,9 @@ class TestController extends Controller
         $test->name = $request->name;
         $test->save();
 
-        return back()->with(['error', 'OK']);
+        return response()->json([
+            'status'=> 200,
+        ]);
     }
 
     public function destroy(Test $test)

@@ -112,12 +112,23 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        $("#exampleModal").modal('hide');
-                        $('#submit-form')[0].reset();
-                        $( "#data-table" ).load(window.location.href + " #data-table" );
                         // $('.submit-btn').prop('type', 'submit'); // not working
                         // alert('Successfully');
                         // $('.submit-btn').attr('type', 'button'); // not working
+
+                        if(data.status == 200){
+                            $("#exampleModal").modal('hide');
+                            $('#submit-form')[0].reset();
+                            $( "#data-table" ).load(window.location.href + " #data-table" );
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Data added successfully',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+
                     },
                     error: function(err) {
                         console.log(err);
@@ -126,15 +137,59 @@
             });
 
 
+            /**
+             * author : Nymul Islam Moon
+             * Delete form
+             * */
+
+
             $(document).on('click', '#delete_data', function(e) {
                 e.preventDefault();
                 var url = $(this).attr('href');
 
                 var x = $('#deleted_form').attr('action', url);
 
-                alert(x);
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
 
+                        $('#deleted_form').submit();
+
+                        Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                        )
+                    }
+                })
             });
+
+
+            $(document).on('submit', '#deleted_form', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('action');
+                var request = $(this).serialize();
+                alert(request);
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    data: request,
+                    success: function(data) {
+
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+                });
+            });
+
 
         });
     </script>
